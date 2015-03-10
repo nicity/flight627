@@ -112,6 +112,15 @@ function(require, mTextView, mKeyBinding, mTextStyler, mTextMateStyler, mHtmlGra
 
 		// create keybindings for source editing
 		var codeBindings = new mEditorFeatures.SourceCodeActions(editor, undoStack, contentAssist, linkedMode);
+		// extra convenience
+		codeBindings.setAutoCompleteComments(true);
+		codeBindings.setAutoPairAngleBrackets(true);
+		codeBindings.setAutoPairBraces(true);
+		codeBindings.setAutoPairParentheses(true);
+		codeBindings.setAutoPairQuotations(true);
+		codeBindings.setAutoPairSquareBrackets(true);
+		codeBindings.setSmartIndentation(true);
+
 		keyModeStack.push(codeBindings);
 
 		// save binding
@@ -413,6 +422,8 @@ function(require, mTextView, mKeyBinding, mTextStyler, mTextMateStyler, mHtmlGra
 			'timestamp' : lastSavePointTimestamp
 		});
 
+        // force to avoid duplicated notifications
+		editor.getTextView().removeEventListener("ModelChanged", sendModelChanged);
 		editor.getTextView().addEventListener("ModelChanged", sendModelChanged);
 	});
 
